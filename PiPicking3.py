@@ -1,6 +1,79 @@
+import RPi.GPIO as GPIO
+import time
 from tkinter import *
 import paho.mqtt.client as mqtt
 import datetime
+
+class LED_output:
+    LocA = 7
+    LocB = 12
+    LocC = 11
+    LocD = 13
+    LocE = 15
+    LocF = 16
+    damn = 9
+    def __init__(self, master):
+        # this is a new class
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(self.LocA, GPIO.OUT)
+        GPIO.setup(self.LocB, GPIO.OUT)
+        GPIO.setup(self.LocC, GPIO.OUT)
+
+        GPIO.setup(self.LocD, GPIO.OUT)
+        GPIO.setup(self.LocE, GPIO.OUT)
+        GPIO.setup(self.LocF, GPIO.OUT)
+
+    def ledjob(self, led):
+        print(led)
+        if str(led) == "A":
+            GPIO.output(self.LocA, 1)
+            print("A on")
+            time.sleep(1)
+            GPIO.output(self.LocA, 0)
+            print("off")
+        elif str(led) == "B":
+            GPIO.output(self.LocB, 1)
+            print("B on")
+            time.sleep(1)
+            GPIO.output(self.LocB, 0)
+            print("off")
+        elif str(led) == "C":
+            GPIO.output(self.LocC, 1)
+            print("on")
+            time.sleep(1)
+            GPIO.output(self.LocC, 0)
+            print("off")
+
+        elif str(led) == "D":
+            GPIO.output(self.LocD, 1)
+            print("on")
+            time.sleep(1)
+            GPIO.output(self.LocD, 0)
+            print("off")
+        elif str(led) == "E":
+            GPIO.output(self.LocE, 1)
+            print("on")
+            time.sleep(1)
+            GPIO.output(self.LocE, 0)
+            print("off")
+        elif str(led) == "F":
+            GPIO.output(self.LocF, 1)
+            print("on")
+            time.sleep(1)
+            GPIO.output(self.LocF, 0)
+            print("off")
+        elif str(led) == "G":
+            GPIO.output(self.LocF, 1)
+            print("on")
+            time.sleep(1)
+            GPIO.output(self.LocF, 0)
+            print("off")
+        elif str(led) == "H":
+            GPIO.output(self.LocF, 1)
+            print("on")
+            time.sleep(1)
+            GPIO.output(self.LocF, 0)
+            print("off")
 
 
 class GuiSetup:
@@ -9,6 +82,7 @@ class GuiSetup:
     traycount = 0
 
     def __init__(self, master):
+        ledcon = LED_output(master)
         topframe = Frame(master)
         topframe.grid(row=0)
         midframe = Frame(master)
@@ -246,6 +320,8 @@ class GuiSetup:
                 self.lblprod5status['bg'] = "grey"
                 self.lblprod6status['bg'] = "grey"
                 self.lblprod7status['bg'] = "grey"
+
+            ledcon.ledjob(self.lastpicklocation)
 
         client = mqtt.Client()
         client.on_connect = on_connect
