@@ -11,6 +11,9 @@ class LED_output:
     LocD = 13
     LocE = 15
     LocF = 16
+    # LocG =
+    # LocH =
+
     damn = 9
     def __init__(self, master):
         # this is a new class
@@ -73,6 +76,27 @@ class LED_output:
             print("on")
             time.sleep(1)
             GPIO.output(self.LocF, 0)
+            print("off")
+        elif str(led) == "New Job":
+            GPIO.output(self.LocA, 1)
+            GPIO.output(self.LocB, 1)
+            GPIO.output(self.LocC, 1)
+            GPIO.output(self.LocD, 1)
+            GPIO.output(self.LocE, 1)
+            GPIO.output(self.LocF, 1)
+            # GPIO.output(self.LocG, 1)
+            # GPIO.output(self.LocH, 1)
+
+            print("on")
+            time.sleep(1)
+
+            GPIO.output(self.LocA, 0)
+            GPIO.output(self.LocB, 0)
+            GPIO.output(self.LocC, 0)
+            GPIO.output(self.LocD, 0)
+            GPIO.output(self.LocE, 0)
+            GPIO.output(self.LocF, 0)
+
             print("off")
 
 
@@ -272,7 +296,7 @@ class GuiSetup:
                 self.lastpicklocation = ""
                 self.traycount = 0
                 updatetime.set(" - New Job - " + str(datetime.datetime.now().time()))
-
+                ledcon.ledjob('New Job')
             isnewtray = 0
             if str(msg.payload) == "b'New Tray'":
                 isnewtray = 1
