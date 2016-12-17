@@ -4,17 +4,19 @@ from tkinter import *
 import paho.mqtt.client as mqtt
 import datetime
 
-class LED_output:
+
+class LedOutput:
+
     LocA = 7
     LocB = 12
     LocC = 11
     LocD = 13
-    LocE = 15
-    LocF = 16
-    # LocG =
-    # LocH =
+    LocE = 16
+    LocF = 15
+    LocG = 18
+    LocH = 22
+    LightDelay = 0
 
-    damn = 9
     def __init__(self, master):
         # this is a new class
         GPIO.setmode(GPIO.BOARD)
@@ -25,58 +27,79 @@ class LED_output:
         GPIO.setup(self.LocD, GPIO.OUT)
         GPIO.setup(self.LocE, GPIO.OUT)
         GPIO.setup(self.LocF, GPIO.OUT)
+        GPIO.setup(self.LocG, GPIO.OUT)
+        GPIO.setup(self.LocH, GPIO.OUT)
+
+    def setall(self, status):
+        GPIO.output(self.LocA, status)
+        GPIO.output(self.LocB, status)
+        GPIO.output(self.LocC, status)
+        GPIO.output(self.LocD, status)
+        GPIO.output(self.LocE, status)
+        GPIO.output(self.LocF, status)
+        GPIO.output(self.LocG, status)
+        GPIO.output(self.LocH, status)
 
     def ledjob(self, led):
+        self.setall(0)
         print(led)
         if str(led) == "A":
             GPIO.output(self.LocA, 1)
             print("A on")
-            time.sleep(1)
-            GPIO.output(self.LocA, 0)
-            print("off")
+            if self.LightDelay > 0:
+                time.sleep(self.LightDelay)
+                GPIO.output(self.LocA, 0)
+                print("off")
         elif str(led) == "B":
             GPIO.output(self.LocB, 1)
             print("B on")
-            time.sleep(1)
-            GPIO.output(self.LocB, 0)
-            print("off")
+            if self.LightDelay > 0:
+                time.sleep(self.LightDelay)
+                GPIO.output(self.LocB, 0)
+                print("off")
         elif str(led) == "C":
             GPIO.output(self.LocC, 1)
             print("on")
-            time.sleep(1)
-            GPIO.output(self.LocC, 0)
-            print("off")
+            if self.LightDelay > 0:
+                time.sleep(self.LightDelay)
+                GPIO.output(self.LocC, 0)
+                print("off")
 
         elif str(led) == "D":
             GPIO.output(self.LocD, 1)
             print("on")
-            time.sleep(1)
-            GPIO.output(self.LocD, 0)
-            print("off")
+            if self.LightDelay > 0:
+                time.sleep(self.LightDelay)
+                GPIO.output(self.LocD, 0)
+                print("off")
         elif str(led) == "E":
             GPIO.output(self.LocE, 1)
             print("on")
-            time.sleep(1)
-            GPIO.output(self.LocE, 0)
-            print("off")
+            if self.LightDelay > 0:
+                time.sleep(self.LightDelay)
+                GPIO.output(self.LocE, 0)
+                print("off")
         elif str(led) == "F":
             GPIO.output(self.LocF, 1)
             print("on")
-            time.sleep(1)
-            GPIO.output(self.LocF, 0)
-            print("off")
+            if self.LightDelay > 0:
+                time.sleep(self.LightDelay)
+                GPIO.output(self.LocF, 0)
+                print("off")
         elif str(led) == "G":
-            GPIO.output(self.LocF, 1)
+            GPIO.output(self.LocG, 1)
             print("on")
-            time.sleep(1)
-            GPIO.output(self.LocF, 0)
-            print("off")
+            if self.LightDelay > 0:
+                time.sleep(self.LightDelay)
+                GPIO.output(self.LocG, 0)
+                print("off")
         elif str(led) == "H":
-            GPIO.output(self.LocF, 1)
+            GPIO.output(self.LocH, 1)
             print("on")
-            time.sleep(1)
-            GPIO.output(self.LocF, 0)
-            print("off")
+            if self.LightDelay > 0:
+                time.sleep(self.LightDelay)
+                GPIO.output(self.LocH, 0)
+                print("off")
         elif str(led) == "New Job":
             GPIO.output(self.LocA, 1)
             GPIO.output(self.LocB, 1)
@@ -84,8 +107,8 @@ class LED_output:
             GPIO.output(self.LocD, 1)
             GPIO.output(self.LocE, 1)
             GPIO.output(self.LocF, 1)
-            # GPIO.output(self.LocG, 1)
-            # GPIO.output(self.LocH, 1)
+            GPIO.output(self.LocG, 1)
+            GPIO.output(self.LocH, 1)
 
             print("on")
             time.sleep(1)
@@ -96,7 +119,8 @@ class LED_output:
             GPIO.output(self.LocD, 0)
             GPIO.output(self.LocE, 0)
             GPIO.output(self.LocF, 0)
-
+            GPIO.output(self.LocG, 0)
+            GPIO.output(self.LocH, 0)
             print("off")
 
 
@@ -106,7 +130,7 @@ class GuiSetup:
     traycount = 0
 
     def __init__(self, master):
-        ledcon = LED_output(master)
+        ledcon = LedOutput(master)
         topframe = Frame(master)
         topframe.grid(row=0)
         midframe = Frame(master)
@@ -351,6 +375,7 @@ class GuiSetup:
         client.on_connect = on_connect
         client.on_message = on_message
         client.connect("test.mosquitto.org", 1883, 60)
+        ledcon.ledjob("New Job")
         client.loop_start()
 
 
